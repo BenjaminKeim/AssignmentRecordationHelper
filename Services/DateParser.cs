@@ -1,6 +1,6 @@
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
-namespace AssignmentRecordationPrep.Services;
+namespace AssignmentRecordationHelper.Services;
 
 /// <summary>
 /// Direct C# port of the Python assignment_recordation_prep.py date parsing logic.
@@ -71,7 +71,7 @@ public static class DateParser
             {
                 if (a > 12)   return (Iso(year, b, a), Epas(b, a, year), false);
                 if (b > 12)   return (Iso(year, a, b), Epas(a, b, year), false);
-                // Both ≤ 12: ambiguous — assume DD/MM (European convention)
+                // Both â‰¤ 12: ambiguous â€” assume DD/MM (European convention)
                 return (Iso(year, b, a), Epas(b, a, year), true);
             }
         }
@@ -87,7 +87,7 @@ public static class DateParser
         return ("", "", false);
     }
 
-    // ── OCR date recovery ─────────────────────────────────────────────────────
+    // â”€â”€ OCR date recovery â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     private static readonly Regex SlashLikeRe = new(@"(?<=\d)[1lI|!/\\](?=\d)");
 
@@ -111,7 +111,7 @@ public static class DateParser
         string digits = Regex.Replace(raw, @"\D", "");
         if (digits.Length == 10)
         {
-            // Contiguous digit indices — separators were already stripped by Regex.Replace.
+            // Contiguous digit indices â€” separators were already stripped by Regex.Replace.
             string cand = $"{digits[0..2]}/{digits[2..4]}/{digits[4..8]}";
             (iso, epas, ambig) = Parse(cand);
             if (!string.IsNullOrEmpty(epas)) return (iso, epas, ambig);
@@ -146,7 +146,7 @@ public static class DateParser
         return ("", "", false);
     }
 
-    // ── Levenshtein + month coercion ──────────────────────────────────────────
+    // â”€â”€ Levenshtein + month coercion â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     private static int Levenshtein(string a, string b)
     {
@@ -207,7 +207,7 @@ public static class DateParser
         return string.Concat(out_);
     }
 
-    // ── Format helpers ────────────────────────────────────────────────────────
+    // â”€â”€ Format helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     private static string Iso(int y, int m, int d)  => $"{y:D4}-{m:D2}-{d:D2}";
     private static string Epas(int m, int d, int y) => $"{m:D2}/{d:D2}/{y:D4}";

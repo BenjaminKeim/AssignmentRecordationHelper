@@ -1,8 +1,8 @@
-using System.Globalization;
+﻿using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace AssignmentRecordationPrep.Services;
+namespace AssignmentRecordationHelper.Services;
 
 public static class NameMatcher
 {

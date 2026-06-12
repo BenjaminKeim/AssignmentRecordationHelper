@@ -1,4 +1,4 @@
-namespace AssignmentRecordationPrep.Models;
+﻿namespace AssignmentRecordationHelper.Models;
 
 public class AdsInventor
 {

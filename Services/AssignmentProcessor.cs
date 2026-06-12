@@ -1,9 +1,9 @@
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using System.Windows.Media.Imaging;
-using AssignmentRecordationPrep.Models;
+using AssignmentRecordationHelper.Models;
 using UglyToad.PdfPig;
 
-namespace AssignmentRecordationPrep.Services;
+namespace AssignmentRecordationHelper.Services;
 
 /// <summary>
 /// Processes one assignment (a contiguous page range within a PDF) and returns
@@ -28,22 +28,22 @@ public class AssignmentProcessor
             Pages = (startPage + 1, endPage + 1),
         };
 
-        // ── Page 1: ASSIGNOR name ─────────────────────────────────────────────
+        // â”€â”€ Page 1: ASSIGNOR name â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         var (p1Text, _) = BestPageText(pdfPath, startPage);
         result.P1Name = ExtractP1Name(p1Text);
 
-        // ── Signature page (last page): printed name + date + signature ───────
+        // â”€â”€ Signature page (last page): printed name + date + signature â”€â”€â”€â”€â”€â”€â”€
         var (p2Text, p2Source) = BestPageText(pdfPath, endPage);
         result.P2PrintedName   = ExtractP2PrintedName(p2Text);
         result.SignatureDetected = PageHasSignature(pdfPath, endPage, p2Text);
 
-        // ── Date extraction ───────────────────────────────────────────────────
+        // â”€â”€ Date extraction â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         string rawDate   = ExtractDateFromText(p2Text);
         string dateSource = p2Source;
 
         if (string.IsNullOrEmpty(rawDate) && p2Source == "text")
         {
-            // Digital page with no typed date — the date may be handwritten.
+            // Digital page with no typed date â€” the date may be handwritten.
             // Run OCR as a first check before the handwriting path.
             string ocrText = _ocr.OcrPage(pdfPath, endPage);
             rawDate    = ExtractDateFromText(ocrText);
@@ -54,11 +54,11 @@ public class AssignmentProcessor
             dateSource = "missing";
         }
 
-        // ── Date-box path (handwritten / e-signature annotation dates) ────────
+        // â”€â”€ Date-box path (handwritten / e-signature annotation dates) â”€â”€â”€â”€â”€â”€â”€â”€
         // The typed-text layer had no date, so the date lives in the signature
         // annotation. Crop the date box (now rendered with annotations), show it as
         // a thumbnail, and OCR just that line for a pre-fill hint. The result is a
-        // suggestion the human verifies against the image — never auto-accepted.
+        // suggestion the human verifies against the image â€” never auto-accepted.
         if (string.IsNullOrEmpty(rawDate))
         {
             var bbox = OcrService.FindDateLabelBbox(pdfPath, endPage);
@@ -99,7 +99,7 @@ public class AssignmentProcessor
             result.DateAmbiguous = ambig;
         }
 
-        // ── Intra-document checks ─────────────────────────────────────────────
+        // â”€â”€ Intra-document checks â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         if (!string.IsNullOrEmpty(result.P1Name) && !string.IsNullOrEmpty(result.P2PrintedName))
         {
             if (NameMatcher.NamesMatch(result.P1Name, result.P2PrintedName))
@@ -118,7 +118,7 @@ public class AssignmentProcessor
         if (result.SignatureDetected)
             result.Checks.Add("Signature detected on signature page");
         else
-            result.Warnings.Add("Signature NOT detected — verify manually");
+            result.Warnings.Add("Signature NOT detected â€” verify manually");
 
         switch (result.DateSource)
         {
@@ -126,18 +126,18 @@ public class AssignmentProcessor
                 string hint = !string.IsNullOrEmpty(result.DateSuggestion)
                     ? result.DateSuggestion : "(no read)";
                 result.Warnings.Add(
-                    $"HANDWRITTEN date — verify against image. OCR hint: '{hint}'");
+                    $"HANDWRITTEN date â€” verify against image. OCR hint: '{hint}'");
                 break;
             case DateSource.Missing:
-                result.Warnings.Add("Execution date not found — verify manually");
+                result.Warnings.Add("Execution date not found â€” verify manually");
                 break;
             default:
                 if (string.IsNullOrEmpty(result.IsoDate))
                     result.Warnings.Add(
-                        $"Could not parse date from '{rawDate}' — verify manually");
+                        $"Could not parse date from '{rawDate}' â€” verify manually");
                 else if (result.DateAmbiguous)
                     result.Warnings.Add(
-                        $"Date '{rawDate}' is possibly written in day-month (European) order — " +
+                        $"Date '{rawDate}' is possibly written in day-month (European) order â€” " +
                         $"interpreted as {result.EpasDate}; confirm against the document");
                 else
                     result.Checks.Add($"Date '{rawDate}' parsed as {result.EpasDate}");
@@ -147,7 +147,7 @@ public class AssignmentProcessor
         return result;
     }
 
-    // ── Text extraction helpers ───────────────────────────────────────────────
+    // â”€â”€ Text extraction helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     private (string Text, string Source) BestPageText(string pdfPath, int pageIndex)
     {
@@ -169,13 +169,13 @@ public class AssignmentProcessor
     private static string PageTextFromWords(UglyToad.PdfPig.Content.Page page)
         => PdfTextUtil.GetText(page);
 
-    // ── Name extraction ───────────────────────────────────────────────────────
+    // â”€â”€ Name extraction â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     private static readonly Regex P1NameRe = new(
         @"(?:^|\n)\s*(?:[I1|!l]\s+)?" +
-        @"([A-ZÀ-ÖØ-Þ][A-Za-zÀ-ÿ\-’']+" +
-        @"(?:\s+[A-ZÀ-ÖØ-Þ][A-Za-zÀ-ÿ\-’']+){0,5}?)" +
-        @"\s*[\(\[]?\s*[“”""]?\s*ASSIGNOR",
+        @"([A-ZÃ€-Ã–Ã˜-Ãž][A-Za-zÃ€-Ã¿\-â€™']+" +
+        @"(?:\s+[A-ZÃ€-Ã–Ã˜-Ãž][A-Za-zÃ€-Ã¿\-â€™']+){0,5}?)" +
+        @"\s*[\(\[]?\s*[â€œâ€""]?\s*ASSIGNOR",
         RegexOptions.Multiline | RegexOptions.Compiled);
 
     private static string ExtractP1Name(string text)
@@ -212,7 +212,7 @@ public class AssignmentProcessor
         return "";
     }
 
-    // ── Date extraction ───────────────────────────────────────────────────────
+    // â”€â”€ Date extraction â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     private static readonly string[] DateExcludeKeywords =
         ["Page", "Application", "ASSIGNOR", "ASSIGNEE", "Microsoft",
@@ -255,7 +255,7 @@ public class AssignmentProcessor
         return "";
     }
 
-    // ── Signature detection ───────────────────────────────────────────────────
+    // â”€â”€ Signature detection â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     private static bool PageHasSignature(string pdfPath, int pageIndex, string pageText)
     {

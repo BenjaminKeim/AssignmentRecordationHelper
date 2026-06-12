@@ -1,6 +1,6 @@
-using System.Windows.Media.Imaging;
+﻿using System.Windows.Media.Imaging;
 
-namespace AssignmentRecordationPrep.Models;
+namespace AssignmentRecordationHelper.Models;
 
 public enum DateSource { Text, Ocr, TrOcr, Missing }
 
@@ -18,7 +18,7 @@ public class AssignmentResult
     public DateSource DateSource    { get; set; } = DateSource.Missing;
     public bool DateAmbiguous       { get; set; }
 
-    /// <summary>Raw text from handwriting OCR — never auto-accepted as the EPAS value.</summary>
+    /// <summary>Raw text from handwriting OCR â€” never auto-accepted as the EPAS value.</summary>
     public string DateSuggestion    { get; set; } = "";
 
     /// <summary>Cropped date-box image for human verification. Null for typed dates.</summary>
@@ -42,7 +42,7 @@ public class AssignmentResult
         if (!SignatureDetected)
             tags.Add("no signature");
         if (DateSource == DateSource.TrOcr)
-            tags.Add("handwritten — verify image");
+            tags.Add("handwritten â€” verify image");
         else if (DateAmbiguous)
             tags.Add("Possibly written in day-month order");
         else if (string.IsNullOrEmpty(EpasDate))

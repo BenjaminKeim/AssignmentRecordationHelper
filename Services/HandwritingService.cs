@@ -1,16 +1,16 @@
-using System.Windows.Media.Imaging;
+﻿using System.Windows.Media.Imaging;
 
-namespace AssignmentRecordationPrep.Services;
+namespace AssignmentRecordationHelper.Services;
 
 /// <summary>
 /// Handwriting OCR interface. The production implementation uses TrOCR
 /// (microsoft/trocr-base-handwritten) exported to ONNX and run via
-/// Microsoft.ML.OnnxRuntime. See §5 of CSHARP_PORT_PLAN.md for the full
-/// implementation spec (encoder→decoder chaining, int8-quantized weights,
+/// Microsoft.ML.OnnxRuntime. See Â§5 of CSHARP_PORT_PLAN.md for the full
+/// implementation spec (encoderâ†’decoder chaining, int8-quantized weights,
 /// vocab detokenization, greedy decode loop).
 ///
 /// Until the ONNX model is exported and wired in, StubHandwritingService is
-/// used — it returns no hint, leaving the date cell empty for manual entry.
+/// used â€” it returns no hint, leaving the date cell empty for manual entry.
 /// </summary>
 public interface IHandwritingService
 {
@@ -18,7 +18,7 @@ public interface IHandwritingService
     /// Attempt to read a date from the crop image.
     /// Returns the raw OCR text (not yet parsed), or null if unavailable.
     /// The caller MUST pass the result through DateParser.RecoverOcrDate()
-    /// and treat the output as a suggestion only — never auto-accept.
+    /// and treat the output as a suggestion only â€” never auto-accept.
     /// </summary>
     string? TryReadDate(BitmapSource crop);
 }
@@ -29,9 +29,9 @@ public class StubHandwritingService : IHandwritingService
     public string? TryReadDate(BitmapSource crop) => null;
 }
 
-// ── TODO: OnnxHandwritingService (v1) ────────────────────────────────────────
+// â”€â”€ TODO: OnnxHandwritingService (v1) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 //
-// Implementation steps per plan §5:
+// Implementation steps per plan Â§5:
 //
 // 1. Export:
 //    python -c "
@@ -45,8 +45,8 @@ public class StubHandwritingService : IHandwritingService
 //
 // 2. C# preprocessing for a BitmapSource crop:
 //    - Convert to grayscale L (luminance)
-//    - 2× upscale with bicubic interpolation
-//    - Resize to 384×384
+//    - 2Ã— upscale with bicubic interpolation
+//    - Resize to 384Ã—384
 //    - Normalize: pixel = (value/255 - mean[c]) / std[c]  where mean=[0.5,0.5,0.5], std=[0.5,0.5,0.5]
 //    - Shape: [1, 3, 384, 384] float32 tensor
 //

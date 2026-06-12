@@ -1,10 +1,10 @@
-using System.IO;
+﻿using System.IO;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
-using AssignmentRecordationPrep.Models;
+using AssignmentRecordationHelper.Models;
 using UglyToad.PdfPig;
 
-namespace AssignmentRecordationPrep.Services;
+namespace AssignmentRecordationHelper.Services;
 
 public static class AdsInventorExtractor
 {

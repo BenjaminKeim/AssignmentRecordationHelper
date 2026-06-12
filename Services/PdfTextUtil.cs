@@ -1,12 +1,12 @@
-using UglyToad.PdfPig.Content;
+﻿using UglyToad.PdfPig.Content;
 
-namespace AssignmentRecordationPrep.Services;
+namespace AssignmentRecordationHelper.Services;
 
 /// <summary>
 /// Layout-aware text reconstruction from a PdfPig page.
 ///
 /// Clusters words into lines by their vertical center FIRST, then orders each line
-/// left-to-right. This matches how pdfplumber's extract_text() lays out text — and
+/// left-to-right. This matches how pdfplumber's extract_text() lays out text â€” and
 /// crucially avoids the scrambling that a global (Top, Left) sort produces when words
 /// on the same visual line have slightly different baselines.
 /// </summary>

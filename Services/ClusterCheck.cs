@@ -1,6 +1,6 @@
-using AssignmentRecordationPrep.Models;
+﻿using AssignmentRecordationHelper.Models;
 
-namespace AssignmentRecordationPrep.Services;
+namespace AssignmentRecordationHelper.Services;
 
 public static class ClusterCheck
 {
@@ -50,8 +50,8 @@ public static class ClusterCheck
                 r.ClusterOutlier = true;
                 r.Warnings.Add(
                     $"CLUSTER OUTLIER: {cand:MM/dd/yyyy} is {diff} days from the others " +
-                    $"(cohort {lo:MM/dd/yyyy}–{hi:MM/dd/yyyy}, median {median:MM/dd/yyyy}) " +
-                    "— likely wrong; verify / re-read");
+                    $"(cohort {lo:MM/dd/yyyy}â€“{hi:MM/dd/yyyy}, median {median:MM/dd/yyyy}) " +
+                    "â€” likely wrong; verify / re-read");
             }
         }
 

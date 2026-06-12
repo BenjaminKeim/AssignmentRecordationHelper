@@ -1,7 +1,7 @@
-using System.IO;
+﻿using System.IO;
 using UglyToad.PdfPig;
 
-namespace AssignmentRecordationPrep.Services;
+namespace AssignmentRecordationHelper.Services;
 
 /// <summary>
 /// Classifies a path as "ads", "assignments", or "unknown".

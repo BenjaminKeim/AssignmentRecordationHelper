@@ -1,13 +1,13 @@
-using System.IO;
+﻿using System.IO;
 using System.IO.Compression;
 using System.Text;
 using Dict = System.Collections.Generic.Dictionary<string, object?>;
 
-namespace AssignmentRecordationPrep.Services;
+namespace AssignmentRecordationHelper.Services;
 
 /// <summary>
 /// Self-contained PDF parser for extracting XFA datasets XML from USPTO ADS forms.
-/// Lifted verbatim from FilingReceiptReview — same two-tier approach:
+/// Lifted verbatim from FilingReceiptReview â€” same two-tier approach:
 ///   1. Structured: navigate the PDF object tree (fast, precise)
 ///   2. Brute-force: decompress every FlateDecode stream and scan for XFA markers
 /// </summary>

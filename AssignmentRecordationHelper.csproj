@@ -6,12 +6,17 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
-    <AssemblyTitle>Assignment Recordation Prep</AssemblyTitle>
-    <Product>Assignment Recordation Prep</Product>
-    <Copyright>Newport IP, LLC</Copyright>
+	<ApplicationIcon>Assets\AppIcons\AH_AssignmentHelper.ico</ApplicationIcon>
+	<AssemblyTitle>Assignment Recordation Helper</AssemblyTitle>
+    <Product>Assignment Recordation Helper</Product>
+    <AssemblyName>AssignmentRecordationHelper</AssemblyName>
+    <RootNamespace>AssignmentRecordationHelper</RootNamespace>
+    <Copyright>Benjamin Keim</Copyright>
     <Version>1.0.0</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <!-- Self-contained publish: dotnet publish -r win-x64 -self-contained -c Release -->
+    <!-- Self-contained single-file publish:
+         dotnet publish AssignmentRecordationHelper.csproj -r win-x64 -self-contained -c Release
+           -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -->
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,9 +28,7 @@
     <!-- <PackageReference Include="Microsoft.ML.OnnxRuntime" Version="1.20.1" /> -->
   </ItemGroup>
 
-  <!-- Embed tessdata inside the assembly; extracted at runtime.
-       Copy eng.traineddata from the FilingReceiptReview project or download from
-       https://github.com/tesseract-ocr/tessdata into the tessdata/ subfolder. -->
+  <!-- Embed tessdata inside the assembly; extracted at runtime. -->
   <ItemGroup>
     <EmbeddedResource Include="tessdata\eng.traineddata"
                       Condition="Exists('tessdata\eng.traineddata')">
@@ -44,7 +47,7 @@
     <Copy SourceFiles="$(MSBuildProjectDirectory)\README.txt"
           DestinationFolder="$(PublishDir)"
           Condition="Exists('$(MSBuildProjectDirectory)\README.txt')" />
-    <Delete Files="$(PublishDir)AssignmentRecordationPrep.pdb" />
+    <Delete Files="$(PublishDir)AssignmentRecordationHelper.pdb" />
     <Delete Files="$(PublishDir)LICENSE" />
   </Target>
 

@@ -1,5 +1,5 @@
-Assignment Recordation Prep
-==========================
+Assignment Recordation Helper
+==============================
 
 Extracts inventor names and execution dates from executed patent assignment PDFs,
 and compares them against the ADS inventor list for USPTO Assignment Center entry.
@@ -8,12 +8,12 @@ and compares them against the ADS inventor list for USPTO Assignment Center entr
 REQUIREMENTS
 ------------
 Windows 10/11 (x64). No Python, no internet, no admin install required.
-The app is self-contained — all dependencies are bundled.
+The app is self-contained — all dependencies are bundled in the single executable.
 
 
 USAGE
 -----
-1. Run AssignmentRecordationPrep.exe
+1. Run AssignmentRecordationHelper.exe
 2. Drag the assignments and ADS PDFs anywhere onto the window, or click the
    ASSIGNMENTS / ADS picker boxes to select them.
    - Accepts a combined PDF, a folder of individual PDFs, or several PDFs at once.
@@ -43,14 +43,6 @@ Shows only mismatches (inventors on ADS but not in assignments, or vice versa).
 A green checkmark means all inventors match.
 
 
-PUBLISHING (self-contained exe)
--------------------------------
-  dotnet publish AssignmentRecordationPrep.csproj -r win-x64 --self-contained -c Release
-
-Produces a single folder; zip and distribute. No .NET runtime needed on the
-target machine.
-
-
 NOTES
 -----
 - Date format: MM/DD/YYYY (USPTO Assignment Center field format).
@@ -58,9 +50,34 @@ NOTES
 - OCR dates are extracted via Tesseract (bundled, eng.traineddata embedded).
 - Handwriting OCR hint: the TrOCR ONNX implementation is a placeholder in v1.
   The date image crop is shown for all handwritten dates so the human can read
-  the date directly. See Services/HandwritingService.cs for the ONNX spec.
+  the date directly.
 
 
 VERSION
 -------
 1.0.0 — initial C# port of the Python prototype.
+
+
+-------------------------------------------------------------------------------
+MIT License
+
+Copyright (c) 2025 Benjamin Keim
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-------------------------------------------------------------------------------

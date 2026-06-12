@@ -1,4 +1,4 @@
-using System.IO;
+﻿using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Media.Imaging;
 using Docnet.Core;
@@ -6,7 +6,7 @@ using Docnet.Core.Models;
 using Tesseract;
 using UglyToad.PdfPig;
 
-namespace AssignmentRecordationPrep.Services;
+namespace AssignmentRecordationHelper.Services;
 
 /// <summary>
 /// Handles page rendering (Docnet) and Tesseract OCR.
@@ -14,7 +14,7 @@ namespace AssignmentRecordationPrep.Services;
 /// </summary>
 public class OcrService : IDisposable
 {
-    // Docnet scale: 1.0 = 1 point per pixel (72 DPI base); 4.0 ≈ 288 DPI
+    // Docnet scale: 1.0 = 1 point per pixel (72 DPI base); 4.0 â‰ˆ 288 DPI
     private const double OcrScale = 3.0;
     private const double CropScale = 4.0;
 
@@ -34,7 +34,7 @@ public class OcrService : IDisposable
 
     private static string GetOrExtractTessData()
     {
-        var dir  = Path.Combine(Path.GetTempPath(), "AssignmentRecordationPrep", "tessdata");
+        var dir  = Path.Combine(Path.GetTempPath(), "AssignmentRecordationHelper", "tessdata");
         var dest = Path.Combine(dir, "eng.traineddata");
         if (!File.Exists(dest))
         {
@@ -131,7 +131,7 @@ public class OcrService : IDisposable
             int rowOff = y * w * 4;
 
             // Count ink in the row; skip "line" rows. The signature underline spans
-            // nearly the full width — including it would prevent horizontal trimming
+            // nearly the full width â€” including it would prevent horizontal trimming
             // and leave the date floating in whitespace.
             int rowInk = 0;
             for (int x = 0; x < w; x++)
@@ -154,7 +154,7 @@ public class OcrService : IDisposable
             }
         }
 
-        if (maxX < 0) return (bgra, w, h);   // all white — nothing to trim
+        if (maxX < 0) return (bgra, w, h);   // all white â€” nothing to trim
 
         int pad = (int)(2.0 * CropScale);    // ~8 px breathing room at 4x
         minX = Math.Max(0, minX - pad); minY = Math.Max(0, minY - pad);
@@ -167,7 +167,7 @@ public class OcrService : IDisposable
         return (outBgra, nw, nh);
     }
 
-    // ── Internal helpers ──────────────────────────────────────────────────────
+    // â”€â”€ Internal helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     private (byte[]? Bgra, int W, int H) RenderPageBgra(
         string pdfPath, int pageIndex, double scale)

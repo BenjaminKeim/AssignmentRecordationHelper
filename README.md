@@ -1,4 +1,4 @@
-# Assignment Recordation Prep
+# Assignment Recordation Helper
 
 A self-contained Windows desktop app (WPF / .NET 9) that reads executed patent
 assignment PDFs and the filed ADS, then produces a **four-column table** ready
@@ -59,7 +59,7 @@ Date recovery for garbled OCR output:
 
 ## Usage
 
-1. Run `AssignmentRecordationPrep.exe`.
+1. Run `AssignmentRecordationHelper.exe`.
 2. **Drag** the assignments and ADS PDFs anywhere onto the window, or click the
    ASSIGNMENTS / ADS picker boxes to select them. Files are classified automatically.
 3. Click **Process**.
@@ -73,13 +73,13 @@ or any mix. The ADS can be XFA (dynamic form) or flat text.
 Requires .NET 9 SDK and Visual Studio 2022 (or `dotnet build`).
 
 ```powershell
-dotnet build AssignmentRecordationPrep.csproj -c Release
+dotnet build AssignmentRecordationHelper.csproj -c Release
 ```
 
 **Self-contained publish** (single folder, no .NET runtime required on target):
 
 ```powershell
-dotnet publish AssignmentRecordationPrep.csproj -r win-x64 --self-contained -c Release
+dotnet publish AssignmentRecordationHelper.csproj -r win-x64 --self-contained -c Release
 ```
 
 Tesseract `eng.traineddata` is embedded as a resource and extracted to a temp
