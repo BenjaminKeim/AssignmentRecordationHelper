@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Visual Studio
+.vs/
+*.user
+bin/
+obj/
+
+# Model weights / large artifacts (bundle separately, don't commit)
+# Note: "models/" (lowercase) would match "Models/" on Windows — use specific path instead
+/models/
+*.onnx
+*.safetensors
+# *.bin excluded only at root level to avoid matching Models/ source directory
+/*.bin
+
+# Local test inputs/outputs and rendered crops (may contain client PII — never commit)
+testdata/
+out/
+*.pdf
+date_crops/
+
+# Python prototype (C# repo only)
+src/
+requirements.txt
+*.pyproj
+AssignmentRecordationPrep.pyproj
+
+# Internal planning notes
+docs/
