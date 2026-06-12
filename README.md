@@ -1,4 +1,4 @@
-# Assignment Recordation Prep
+# Assignment Recordation Helper
 
 A self-contained Windows desktop app (WPF / .NET 9) that reads executed patent
 assignment PDFs and the filed ADS, then produces a **four-column table** ready
@@ -96,7 +96,3 @@ folder at runtime — no Tesseract installation needed on the target machine.
 
 The XFA extractor (`Services/PdfXfaExtractor.cs`) is a self-contained PDF
 object-tree parser — no third-party library needed to read USPTO ADS dynamic forms.
-
-## License
-
-Internal Newport IP tooling.
